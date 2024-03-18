@@ -61,7 +61,10 @@ void delete_by_key(int *arr, int *N, int key)
     }
     if (pos != -1)
     {
-        *(arr + pos) = 0;
+        for (i = pos; i < *N - 1; i++)
+        {
+            *(arr + pos) = *(arr + pos + 1);
+        }
         printf("Deleted!\n");
         *N -= 1;
     }
