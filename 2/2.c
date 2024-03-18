@@ -79,14 +79,14 @@ void search_by_pos(int *arr, int N, int pos)
 
 void reverse(int *arr, int N)
 {
-    int start = *arr;
-    int end = *(arr + N - 1);
+    int start = 0;
+    int end = N - 1;
 
     while (start < end)
     {
-        int temp = start;
-        start = end;
-        end = temp;
+        int temp = *(arr + start);
+        *(arr + start) = *(arr + end);
+        *(arr + end) = temp;
         start++;
         end--;
     }
