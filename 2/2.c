@@ -7,6 +7,8 @@ i) Insert by position ii) Delete by key iii) Search by position iv) Reverse the 
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MAXSIZE 100
+
 int i;
 
 void display(int *arr, int N)
@@ -24,31 +26,32 @@ void display(int *arr, int N)
     printf("\n");
 }
 
-void insert_by_pos(int *arr, int N, int pos, int val)
+void insert_by_pos(int *arr, int *N, int pos, int val)
 {
-    if (pos < 0 || pos >= N)
+    if (pos < 0 || pos > *N)
     {
         printf("Invalid position!\n");
         return;
     }
-    for (i = N - 1; i < pos; i--)
+    for (i = *N - 1; i >= pos; i--)
     {
         *(arr + i + 1) = *(arr + i);
     }
     *(arr + pos) = val;
+    *N += 1;
     printf("Inserted!\n");
 }
 
-void delete_by_key(int *arr, int N, int key)
+void delete_by_key(int *arr, int *N, int key)
 {
-    if (N == 0)
+    if (*N == 0)
     {
         printf("Empty!\n");
         return;
     }
     int pos = -1;
 
-    for (i = 0; i < N; i++)
+    for (i = 0; i < *N; i++)
     {
         if (key == *(arr + i))
         {
@@ -60,6 +63,7 @@ void delete_by_key(int *arr, int N, int key)
     {
         *(arr + pos) = 0;
         printf("Deleted!\n");
+        *N -= 1;
     }
     else
     {
@@ -67,9 +71,9 @@ void delete_by_key(int *arr, int N, int key)
     }
 }
 
-void search_by_pos(int *arr, int N, int pos)
+void search_by_pos(int *arr, int *N, int pos)
 {
-    if (pos < 0 || pos >= N)
+    if (pos < 0 || pos >= *N)
     {
         printf("Invalid position!\n");
         return;
@@ -77,10 +81,10 @@ void search_by_pos(int *arr, int N, int pos)
     printf("Element at position %d is: %d\n", pos, *(arr + pos));
 }
 
-void reverse(int *arr, int N)
+void reverse(int *arr, int *N)
 {
     int start = 0;
-    int end = N - 1;
+    int end = *N - 1;
 
     while (start < end)
     {
@@ -94,10 +98,8 @@ void reverse(int *arr, int N)
 
 int main()
 {
-    int N;
-    printf("Enter capacity of array: ");
-    scanf("%d", &N);
-    int *arr = (int *)calloc(N, sizeof(int));
+    int N = 0;
+    int *arr = (int *)malloc(MAXSIZE * sizeof(int));
     if (!arr)
     {
         printf("Memory allocation failed!\n");
@@ -122,26 +124,26 @@ int main()
         case 1:
             printf("Enter position and value: ");
             scanf("%d %d", &pos, &val);
-            insert_by_pos(arr, N, pos, val);
+            insert_by_pos(arr, &N, pos, val);
             display(arr, N);
             break;
 
         case 2:
             printf("Enter key: ");
             scanf("%d", &key);
-            delete_by_key(arr, N, key);
+            delete_by_key(arr, &N, key);
             display(arr, N);
             break;
 
         case 3:
             printf("Enter position: ");
             scanf("%d", &pos);
-            search_by_pos(arr, N, pos);
+            search_by_pos(arr, &N, pos);
             display(arr, N);
             break;
 
         case 4:
-            reverse(arr, N);
+            reverse(arr, &N);
             display(arr, N);
             break;
 
