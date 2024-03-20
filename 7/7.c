@@ -176,56 +176,6 @@ void insert_rear(CDL *list, int data)
     printf("Inserted!\n");
 }
 
-void insert_pos(CDL *list, int data, int pos)
-{
-    if (pos < 0 || pos > list->count)
-    {
-        printf("Invalid position!\n");
-        return;
-    }
-    if (pos == 0)
-        insert_front(list, data);
-    else if (pos == list->count)
-        insert_rear(list, data);
-    else
-    {
-        NODE *new = create_node(data);
-        NODE *cur = list->head->n;
-        NODE *prev = NULL;
-        while (pos--)
-        {
-            prev = cur;
-            cur = cur->n;
-        }
-        new->n = cur;
-        new->p = prev;
-        cur->p = new;
-        prev->n = new;
-        list->count += 1;
-        printf("Inserted!\n");
-    }
-}
-
-void insert_order(CDL *list, int data)
-{
-    if (list->count == 0)
-    {
-        insert_front(list, data);
-        return;
-    }
-
-    NODE *cur = list->head->n;
-    int pos = 0;
-    do
-    {
-        if (data < cur->data)
-            break;
-        pos++;
-        cur = cur->n;
-    } while (cur != list->head->n);
-    insert_pos(list, data, pos);
-}
-
 void delete_front(CDL *list)
 {
     if (list->count == 0)
