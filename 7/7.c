@@ -99,8 +99,8 @@ int main()
 
         case 4:
             printf("Enter key: ");
-            scanf("%d", &pos);
-            search_key(list, pos);
+            scanf("%d", &key);
+            search_key(list, key);
             display(list);
             break;
 
