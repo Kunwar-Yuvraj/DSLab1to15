@@ -28,7 +28,7 @@ STACK *init()
 }
 
 void convert(char infix[], STACK *postfix);
-void evaluate(STACK *postfix);
+void evaluate(char postfix[]);
 
 int main()
 {
@@ -159,14 +159,12 @@ void convert(char infix[], STACK *postfix)
         else if (c == ')')
         {
             while (peek(op) != '(')
+            {
                 push(postfix, pop(op));
+            }
             pop(op);
         }
-        else if (!is_op(c))
-        {
-            push(postfix, c);
-        }
-        else
+        else if (is_op(c))
         {
             if (op->top == -1)
             {
@@ -180,17 +178,48 @@ void convert(char infix[], STACK *postfix)
                 }
                 else
                 {
-                    while (prec(peek(op) >= prec(c)))
+                    while (prec(c) <= prec(peek(op)))
                     {
                         push(postfix, pop(op));
                     }
+                    push(op, c);
                 }
             }
         }
+        else
+        {
+            push(postfix, c);
+        }
     }
     while (!empty(op))
+    {
         push(postfix, pop(op));
+    }
     push(postfix, '\0');
     free(op);
-    printf("Converted to postfix: %s\n", postfix->stack);
+    printf("Postfix: %s\n", postfix->stack);
 }
+
+// void evaluate(char postfix[])
+// {
+//     int i;
+//     STACK *res = init();
+//     for (i=0; postfix[i] != '\0'; i++)
+//     {
+//         char c = postfix[i];
+
+//         if (!is_op(c))
+//         {
+//             push(res, c);
+//         }
+//         else{
+//             int a = pop(res) - '0';
+//             int b = pop(res) - '0';
+//             switch (c)
+//             {
+//                 case '^':
+//                 printf("%")
+//             }
+//         }
+//     }
+// }
